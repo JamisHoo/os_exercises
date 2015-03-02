@@ -47,7 +47,7 @@
 >  
 
 为什么没有人用python，java来实现操作系统？
-- [x]  
+- 因为python和java的都需要虚拟机来编译执行，因此他们都不是系统级的语言。即python和java的虚拟机必须运行在操作系统之上，而没有python和java的虚拟机就无法实现python和java的操作系统的功能。
 
 >  
 
