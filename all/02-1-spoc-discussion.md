@@ -43,6 +43,7 @@
     [SYS_getdirentry]       sys_getdirentry,
     [SYS_dup]               sys_dup,
   大致功能可分为：文件操作，进程管理，内存管理等。
+
  
 ## 3.4 linux系统调用分析
  1. 通过分析[lab1_ex0](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex0.md)了解Linux应用的系统调用编写和含义。(w2l1)
@@ -55,7 +56,7 @@
  
  1. 通过调试[lab1_ex1](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex1.md)了解Linux应用的系统调用执行过程。(w2l1)
     strace用于统计程序运行时系统调用的次数和时间分布情况。
- 
+
 
  ```
   + 采分点：说明了strace的大致用途，说明了系统调用的具体执行过程（包括应用，CPU硬件，操作系统的执行过程）
