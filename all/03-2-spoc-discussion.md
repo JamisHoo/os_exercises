@@ -19,8 +19,11 @@ NOTICE
   - 正确描述了64bit CPU支持的物理内存大小限制（1分）
   - 正确描述了64bit CPU下的多级页表的级数和多级页表的结构或反置页表的结构（2分）
   - 除上述两点外，进一步描述了在多级页表或反置页表下的虚拟地址-->物理地址的映射过程（3分）
- ```
-- [x]  
+```
+
+- 64bit CPU支持的物理内存大小为2^64字节。
+- 多级页表分为5级，其结构是每级页表单独存放。
+- 在多级页表中，从一个虚拟地址中取出与相应级页表相对应的位数，以此作为索引在该级中搜索是否存在该页表。若不存在，则报错。否则继续取下一级页表对应的地址进行搜索。
 
 >  
 
@@ -52,16 +55,54 @@ PT6..0:页表的物理基址>>5
 ```
 在[物理内存模拟数据文件](./03-2-spoc-testdata.md)中，给出了4KB物理内存空间的值，请回答下列虚地址是否有合法对应的物理内存，请给出对应的pde index, pde contents, pte index, pte contents。
 ```
-Virtual Address 6c74
-Virtual Address 6b22
-Virtual Address 03df
-Virtual Address 69dc
-Virtual Address 317a
-Virtual Address 4546
-Virtual Address 2c03
-Virtual Address 7fd7
-Virtual Address 390e
-Virtual Address 748b
+Virtual Address:  6c74
+  --> pde index:0x1b  pde contents:(valid 1, PT 0x20)
+    --> pte index:0x3  pte contents:(valid 1, PFN 0x61)
+      --> Translates to Physical Address 0xc34 --> Value: 6 
+
+Virtual Address:  6b22
+  --> pde index:0x1a  pde contents:(valid 1, PT 0x52)
+    --> pte index:0x19  pte contents:(valid 1, PFN 0x47)
+      --> Translates to Physical Address 0x8e2 --> Value: 26 
+
+Virtual Address:  03df
+  --> pde index:0x0  pde contents:(valid 1, PT 0x5a)
+    --> pte index:0x1e  pte contents:(valid 1, PFN 0x5)
+      --> Translates to Physical Address 0xbf --> Value: 15 
+
+Virtual Address:  69dc
+  --> pde index:0x1a  pde contents:(valid 1, PT 0x52)
+    --> pte index:0xe pte contents:(valid 0, PFN 0x7f)
+      --> Fault (page table entry not valid)
+
+Virtual Address:  317a
+  --> pde index:0xc  pde contents:(valid 1, PT 0x18)
+    --> pte index:0xb  pte contents:(valid 1, PFN 0x35)
+      --> Translates to Physical Address 0x6ba --> Value: 30 
+
+Virtual Address:  4546
+  --> pde index:0x11  pde contents:(valid 1, PT 0x21)
+    --> pte index:0xa pte contents:(valid 0, PFN 0x7f)
+      --> Fault (page table entry not valid)
+
+Virtual Address:  2c03
+  --> pde index:0xb  pde contents:(valid 1, PT 0x44)
+    --> pte index:0x0  pte contents:(valid 1, PFN 0x57)
+      --> Translates to Physical Address 0xae3 --> Value: 22 
+
+Virtual Address:  7fd7
+  --> pde index:0x1f  pde contents:(valid 1, PT 0x12)
+    --> pte index:0x1e pte contents:(valid 0, PFN 0x7f)
+      --> Fault (page table entry not valid)
+
+Virtual Address:  390e
+  --> pde index:0xe  pde contents:(valid 0, PT 0x7f)
+      --> Fault (page directory entry not valid)
+
+Virtual Address:  748b
+  --> pde index:0x1d  pde contents:(valid 1, PT 0x0)
+    --> pte index:0x4 pte contents:(valid 0, PFN 0x7f)
+      --> Fault (page table entry not valid)
 ```
 
 比如答案可以如下表示：
