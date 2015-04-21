@@ -69,3 +69,25 @@ https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-boot-with
 能够把个人思考题和上述知识点中的内容展示出来：即在ucore运行过程中通过`cprintf`函数来完整地展现出来进程A相关的动态执行和内部数据/状态变化的细节。(约全面细致约好)
 
 请完成如下练习，完成代码填写，并形成spoc练习报告
+```
+1.内核如何创建用户进程：
+    内核先创建了一个内核线程，然后在内核触发一次系统调用SYS_exec。
+    然后执行do_execve函数，通过load_icode将新代码覆盖到旧进程的代码上
+    再为用户进程设置用户栈，设置trapframe中的CS，SS，DS等段均为用户态的段，EIP为加载的用户代码的第一条指令
+    之后从trap返回时即变为在用户态执行的进程
+
+2.用户进程是如何在用户态开始执行的：
+    通过trap的返回
+    在内核中设置trapframe中的段寄存器为用户态段，EIP为用户代码的第一条指令
+    从trap返回是trapframe中的内容恢复到真实的寄存器中，即可以从用户态开始执行
+
+3.用户态堆栈保存在哪里：
+    在load_icode函数中为进程分配了用户栈：mm_map(mm, USTACKTOP - USTACKSIZE, USTACKSIZE, vm_flags, NULL)
+    之后设置tf->tf_esp = USTACKTOP;tf->tf_ss = USER_DS;
+    在从trap（系统调用SYS_exec造成的trap）中返回时，tf->tf_esp和tf->tf_ss被恢复到真实的esp和SS寄存器中
+    进程就可以正常使用用户态堆栈了
+
+4.对代码的修改：
+    在kern/syscall/syscall.c中增加了cpringf，可以追踪每一次系统调用（去掉了putc系统调用的追踪，否则太多了）
+    在kern/process/proc.c中的do_wait/do_exit/do_fork/load_icode/do_execve等函数中都加入了cprintf追踪进程的踪迹
+```
