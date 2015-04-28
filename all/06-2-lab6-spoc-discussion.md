@@ -39,6 +39,12 @@
 请完成如下练习，完成代码填写，并形成spoc练习报告
 > 需写练习报告和简单编码，完成后放到git server 对应的git repo中
 
+实验代码　https://github.com/clarkliucs/ucore_lab/tree/master/labcodes_answer/lab6_result/kern
+
+在所有内核中schedule的调用点都进行了cprintf的输出，用来观察被调度的进程是哪个
+
+在trap函数schedule调度点前也进行了同样的输出
+
 ### 练习用的[lab6 spoc exercise project source code](https://github.com/chyyuu/ucore_lab/tree/master/labcodes_answer/lab6_result)
 
 
