@@ -41,29 +41,47 @@
 2. （spoc)了解race condition. 进入[race-condition代码目录](https://github.com/chyyuu/ucore_lab/tree/master/related_info/lab7/race-condition)。
 
  - 执行 `./x86.py -p loop.s -t 1 -i 100 -R dx`， 请问`dx`的值是什么？
- > * 0 -1 -1 -1 -1
+
+> * 0 -1 -1 -1 -1
+ 
  - 执行 `./x86.py -p loop.s -t 2 -i 100 -a dx=3,dx=3 -R dx` ， 请问`dx`的值是什么？
- > * thread 0: 3 2 2 2 1 1 1 0 0 0 -1 -1 -1 -1   
- > * thread 1:                                 3 2 2 2 1 1 1 0 0 0 -1 -1 -1 -1
+
+> * thread 0: 3 2 2 2 1 1 1 0 0 0 -1 -1 -1 -1   
+> * thread 1:                                 3 2 2 2 1 1 1 0 0 0 -1 -1 -1 -1
+ 
  - 执行 `./x86.py -p loop.s -t 2 -i 3 -r -a dx=3,dx=3 -R dx`， 请问`dx`的值是什么？
- > * thread 0: 3 2 2 2         2 1 1 1         1 0 0 0         0 -1 -1 -1            -1 -1 
- > * thread 1:         3 2 2 2         2 1 1 1         1 0 0 0            0 -1 -1 -1       -1 -1
+
+> * thread 0: 3 2 2 2         2 1 1 1         1 0 0 0         0 -1 -1 -1            -1 -1 
+> * thread 1:         3 2 2 2         2 1 1 1         1 0 0 0            0 -1 -1 -1       -1 -1
+ 
  - 变量x的内存地址为2000, `./x86.py -p looping-race-nolock.s -t 1 -M 2000`, 请问变量x的值是什么？
- > * 0 0 0 1 1 1 1 1 
+
+> * 0 0 0 1 1 1 1 1 
+ 
  - 变量x的内存地址为2000, `./x86.py -p looping-race-nolock.s -t 2 -a bx=3 -M 2000`, 请问变量x的值是什么？为何每个线程要循环3次？
- > * thread 0: 0 0 0 1 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3
- > * thread 1:                           3 3 3 4 4 4 4 4 4 5 5 5 5 5 5 6 6 6 6 6 
- > * 初始值bx为3
+ 
+> * thread 0: 0 0 0 1 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3
+> * thread 1:                                         3 3 3 4 4 4 4 4 4 5 5 5 5 5 5 6 6 6 6 6 
+> * 初始值bx为3
+
  - 变量x的内存地址为2000, `./x86.py -p looping-race-nolock.s -t 2 -M 2000 -i 4 -r -s 0`， 请问变量x的值是什么？
- > * thread 0 : 0 0 0 1 1            2 2 2 2    
- > * thread 1:        1 1 1 2 2          2 2 2 2 2 
+
+> * thread 0 : 0 0 0 1 1            2 2 2 2    
+> * thread 1:            1 1 1 2 2          2 2 2 2 2 
+
  - 变量x的内存地址为2000, `./x86.py -p looping-race-nolock.s -t 2 -M 2000 -i 4 -r -s 1`， 请问变量x的值是什么？
- > * thread 0 : 0 0 0 1 1            2 2 2 2     
- > * thread 1:        1 1 1 2 2          2 2 2 2 2 
+
+> * thread 0 : 0 0 0 1 1            2 2 2 2     
+> * thread 1:            1 1 1 2 2          2 2 2 2 2 
+
  - 变量x的内存地址为2000, `./x86.py -p looping-race-nolock.s -t 2 -M 2000 -i 4 -r -s 2`， 请问变量x的值是什么？ 
- > * thread 0 : 0 0 0 1 1            2 2 2 2     
- > * thread 1:        1 1 1 2 2          2 2 2 2 2 
+> * thread 0 : 0 0 0 1 1            2 2 2 2     
+> * thread 1:            1 1 1 2 2          2 2 2 2 2 
+
  - 变量x的内存地址为2000, `./x86.py -p looping-race-nolock.s -a bx=1 -t 2 -M 2000 -i 1`， 请问变量x的值是什么？ 
+
+> * thread 0: 0 0      0 0      0 1      1 1      1 1      1 1      1 1
+> * thread 1:      0 0      0 0      1 1      1 1      1 1      1 1      1 1 1
 
 3. （spoc） 了解software-based lock, hardware-based lock, [software-hardware-lock代码目录](https://github.com/chyyuu/ucore_lab/tree/master/related_info/lab7/software-hardware-locks)
 
